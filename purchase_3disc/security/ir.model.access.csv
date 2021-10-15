@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_department_value,purchase_3disc.department,model_purchase_3disc_department,base.group_user,1,0,0,0
+access_category_value,purchase_3disc.category,model_purchase_3disc_category,base.group_user,1,0,0,0
+access_deparment_value_manager,purchase_3disc.department manager,model_purchase_3disc_department,base.group_user,1,1,1,1
+access_deparment_value_manager,purchase_3disc.department manager,model_purchase_3disc_department,base.group_user,1,1,1,1

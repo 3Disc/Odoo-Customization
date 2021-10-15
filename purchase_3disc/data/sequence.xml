@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_purchase_3disc_order" model="ir.sequence">
+            <field name="name">Purchase Order Sequence (3Disc)</field>
+            <field name="code">purchase_3disc.order</field>
+            <field name="prefix">3DISC-</field>
+            <field name="suffix">-%(y)s%(month)s-DPT-CTG</field>
+            <field name="padding">3</field>
+            <field name="yearly_reset">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

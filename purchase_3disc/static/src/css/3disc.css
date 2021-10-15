@@ -1,0 +1,79 @@
+table.info {
+    border: 1px solid black;
+    top: 0;
+    border-collapse: collapse;
+}
+table.info tr.header {
+    background: #FF6600; 
+    color: white; 
+    border: 1px solid black;
+}
+
+table.confirm {
+    width:100%;
+    border: 1px solid black;
+    top: 0;
+    border-collapse: collapse;
+}
+table.confirm tr.header {
+    background: #FF6600; 
+    color: white; 
+    border: 1px solid black;
+}
+table.confirm tr.header th
+{
+    background: #FF6600; 
+    color: white;
+    border: 1px solid black;
+}
+table.confirm tr td {
+    background: white; 
+    color: black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+table.confirm td.price {
+    background: #FF6600; 
+    color: white;
+    border: 1px solid black;
+}
+table.condition
+{
+    width:100%;
+    border: 1px solid black;
+    top: 0;
+    border-collapse: collapse;
+}
+table.condition th {
+    background: #FF6600; 
+    color: white;
+    border: 1px solid black;
+}
+table.condition tr td {
+    background: white; 
+    color: black;
+    border: 1px solid black;
+}
+
+table.price
+{
+    width:100%;
+    background: #FF6600; 
+    color: white;
+    border: 1px solid black;
+    top: 0;
+    border-collapse: collapse;
+}
+table.price tr
+{
+    background: #FF6600; 
+    color: white;
+    border: 1px solid black;
+}
+table.price tr td
+{
+    background: #FF6600; 
+    color: white;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}

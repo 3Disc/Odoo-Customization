@@ -1,0 +1,17 @@
+<openerp>
+  <data>
+    <!-- explicit list view definition -->
+    <record id="view_ir_sequence_form" model="ir.ui.view">
+        <field name="name">ir.sequence.form </field>
+        <field name="model">ir.sequence</field>
+        <field name="inherit_id" ref="base.sequence_view"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='suffix']" position="after">
+                    <field name="yearly_reset"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+  </data>
+</openerp>

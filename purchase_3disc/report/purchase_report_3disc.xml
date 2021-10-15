@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--http://jsfiddle.net/askhe/1/-->
+<odoo>
+    <template id="3disc_report_purchaseorder_document" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+            <t t-call="web.external_layout">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <t t-set="address">
+                    <div t-field="o.partner_id"
+                    t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                    <p t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p>
+                </t>
+                <t t-if="o.dest_address_id">
+                    <t t-set="information_block">
+                        <strong>Shipping address:</strong>
+                        <div t-if="o.dest_address_id">
+                            <div t-field="o.dest_address_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' name="purchase_shipping_address"/>
+                        </div>
+
+                    </t>
+                </t>
+                <div class="page">
+                    <link rel="stylesheet" href="/purchase_3disc/static/src/css/3disc.css"/>
+                    <div class="oe_structure"/>
+
+                    <table class="table info" align="right">
+                        <tr class="header">
+                            <th>PO Number</th>
+                            <th>PO Date</th>
+                        </tr>
+                        <tr>
+                            <td><span t-field="o.date_order"/></td>
+                            <td><span t-field="o.name"/></td>
+                        </tr>
+                    </table>
+
+                    <table class="table confirm">
+                        <tr class="header">
+                            <th id="th_user" headers ="blank" class="col1" colspan="2"><strong>Purchaser</strong></th>
+                            <th id="th_department" headers ="blank" class="col3"><strong>Department</strong></th>
+                            <th id="th_user" headers ="blank" class="col4"><strong>Prepared By</strong></th>
+                            <th id="th_reviewer" headers ="blank" class="col5" colspan="2"><strong>Reviewed By</strong></th>
+                            <th id="th_approver" headers ="blank" class="col7"><strong>Approved By</strong></th>
+                        </tr>
+                        <tr>
+                            <td headers="th_user" class="col1" colspan="2"><span t-field="o.user_id"/></td>
+                            <td headers="th_department" class="col3"><span t-field="o.department_code"/></td>
+                            <td headers="th_user" class="col4"><span t-field="o.user_id"/></td>
+                            <td headers="th_reviewer" class="col5" colspan="2"><span t-field="o.user_id"/></td>
+                            <td headers="th_department" class="col7"><span t-field="o.user_id"/></td>
+                        </tr>
+                        <tr class="header"> 
+                            <th id="th_index" headers ="blank" class="col1"><strong>#</strong></th>
+                            <th id="th_part" headers ="blank" class="col2"><strong>Part Number</strong></th>
+                            <th id="th_description" headers ="blank" class="col3" colspan="2"><strong>Description</strong></th>
+                            <th id="th_quantity" headers ="blank" class="col5"><strong>Qty</strong></th>
+                            <th id="th_unitprice" headers ="blank" class="col6"><strong>Unit Price</strong></th>
+                            <th id="th_totalprice" headers ="blank" class="col7"><strong>Amount</strong></th>
+                        </tr>
+                        <tbody>
+                            <t t-set="current_subtotal" t-value="0"/>
+                            <t t-set="current_index" t-value="0"/>
+                            <t t-foreach="o.order_line" t-as="line">
+                                <t t-set="current_index" t-value="current_index+1"/>
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                                <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                    <t t-if="not line.display_type">
+                                        <td id="index" class="col1"> 
+                                            <span t-esc="current_index"/>
+                                        </td>
+
+                                        <td id="productno" class="col2">
+                                            <span t-field="line.part_number"/>
+                                        </td>
+
+                                        <td id="productno" class="col3" colspan="2">
+                                            <span t-field="line.part_description"/>
+                                        </td>
+                                        <td class="text-right col5">
+                                            <span t-field="line.product_qty"/>
+                                            <span t-field="line.product_uom.name" groups="uom.group_uom"/>
+                                        </td>
+                                        <td class="text-right col6">
+                                            <span t-field="line.price_unit"/>
+                                        </td>
+                                        <td class="text-right col7">
+                                            <span t-field="line.price_subtotal"
+                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                        </td>
+                                    </t>
+                                    <t t-if="line.display_type == 'line_section'">
+                                        <td class ="price" colspan="99" id="section">
+                                            <span t-field="line.name"/>
+                                        </td>
+                                        <t t-set="current_section" t-value="line"/>
+                                        <t t-set="current_subtotal" t-value="0"/>
+                                    </t>
+                                    <t t-if="line.display_type == 'line_note'">
+                                        <td class ="price" colspan="99" id="note">
+                                            <span t-field="line.name"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <t t-if="current_section and (line_last or o.order_line[line_index+1].display_type == 'line_section')">
+                                <tr class="is-subtotal text-right">
+                                    <td colspan="99" id="subtotal">
+                                        <strong class="mr16">Subtotal</strong>
+                                        <span
+                                            t-esc="current_subtotal"
+                                            t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                                        />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div id="total" class="row justify-content-end">
+                        <div class="col-4">
+                            <table class="table price">
+                                <tr>
+                                    <td name="td_subtotal_label">Subtotal</td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_untaxed"
+                                            t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td name="td_taxes_label">Taxes</td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_tax"
+                                            t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr class="o_total">
+                                    <td name="td_amount_total_label">Total</td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_total"
+                                            t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <p t-field="o.notes"/>
+                    <table class="table condition">
+                        <tr>
+                        <th class="col1" rowspan="5" scope="rowgroup">Order Condition</th>
+                            <td data-title="Agreement">1. The order may be cancelled in case of late delivery or discrepancies between ordered goods and delivered goods.</td>
+                        </tr>
+                        <tr>
+                            <td class="col2">2. Inspection of the goods follows the purchase’s standard, and only passed goods are deemed to be delivered.</td>
+                        </tr>
+                        <tr>
+                            <td class="col2">3. PO number, part number, item name, description and price in supplier’s deliver note shall be in compliance with this PO.</td>
+                        </tr>
+                        <tr>
+                            <td class="col2">4. The supplier shall notify the purchaser prior to implementing any changes that affect the ability of the product to meet purchasing specification.</td>
+                        </tr>
+                        <tr>
+                            <td class="col2">5. For any items on the PO with a limited shelf life, the supplier shall make a good faith effort to ship product with at least 6 months shelf-life remaining. Supplier shall verify with 3DISC in case remaining shelf life is less than 3 months.</td>
+                        </tr>
+                    </table>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </xpath>
+    </template>    
+</odoo>

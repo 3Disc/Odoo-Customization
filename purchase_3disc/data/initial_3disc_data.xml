@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="purchase_3disc_department_1" model="purchase_3disc.department">
+            <field name="name">IT</field>
+            <field name="code">I</field>
+        </record>
+        <record id="purchase_3disc_department_2" model="purchase_3disc.department">
+            <field name="name">Management</field>
+            <field name="code">M</field>
+        </record>
+        <record id="purchase_3disc_department_3" model="purchase_3disc.department">
+            <field name="name">Production</field>
+            <field name="code">P</field>
+        </record>
+        <record id="purchase_3disc_department_4" model="purchase_3disc.department">
+            <field name="name">Quality</field>
+            <field name="code">Q</field>
+        </record>
+        <record id="purchase_3disc_department_5" model="purchase_3disc.department">
+            <field name="name">R&amp;D</field>
+            <field name="code">R</field>
+        </record>
+        <record id="purchase_3disc_department_6" model="purchase_3disc.department">
+            <field name="name">Sales</field>
+            <field name="code">S</field>
+        </record>
+        <record id="purchase_3disc_department_7" model="purchase_3disc.department">
+            <field name="name">Support</field>
+            <field name="code">T</field>
+        </record>
+        
+        <record id="purchase_3disc_category_1" model="purchase_3disc.category">
+            <field name="name">Equipment</field>
+            <field name="code">E</field>
+        </record>
+        <record id="purchase_3disc_category_2" model="purchase_3disc.category">
+            <field name="name">Inventory</field>
+            <field name="code">I</field>
+        </record>
+        <record id="purchase_3disc_category_3" model="purchase_3disc.category">
+            <field name="name">Other</field>
+            <field name="code">O</field>
+        </record>
+        <record id="purchase_3disc_category_4" model="purchase_3disc.category">
+            <field name="name">Research</field>
+            <field name="code">R</field>
+        </record>
+        <record id="purchase_3disc_category_5" model="purchase_3disc.category">
+            <field name="name">Supply</field>
+            <field name="code">S</field>
+        </record>
+        <record id="purchase_3disc_category_6" model="purchase_3disc.category">
+            <field name="name">Software</field>
+            <field name="code">W</field>
+        </record>
+    </data>
+</odoo>
